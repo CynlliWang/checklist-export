@@ -333,8 +333,6 @@
 </body>
 
 
-
-
 <!-- 🎯 Export Button -->
 <div style="padding: 20px; text-align: center;">
   <button id="exportBtn" style="
@@ -352,9 +350,8 @@
 <script>
 document.getElementById('exportBtn').addEventListener('click', async () => {
   try {
-    let exportData = {};
-
     // 🎯 收集数据
+    const exportData = {};
     document.querySelectorAll('.category').forEach(category => {
       const title = category.querySelector('h2').textContent;
       const tasks = Array.from(category.querySelectorAll('li')).map(task => {
@@ -383,7 +380,13 @@ document.getElementById('exportBtn').addEventListener('click', async () => {
       })
     });
 
-    // 尝试解析 JSON
+    // ⚠️ 检查 HTTP 状态
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Worker 返回 HTTP ${res.status}: ${text}`);
+    }
+
+    // 🎯 尝试解析 JSON
     let result;
     try {
       result = await res.json();
@@ -392,7 +395,8 @@ document.getElementById('exportBtn').addEventListener('click', async () => {
       throw new Error(`Worker 返回不是 JSON: ${text}`);
     }
 
-    if (res.ok && result.ok) {
+    // 🎯 上传结果处理
+    if (result.ok) {
       alert("✅ 上传成功！点击确定打开文件。");
       if (result.url) window.open(result.url, "_blank");
     } else {
@@ -407,8 +411,8 @@ document.getElementById('exportBtn').addEventListener('click', async () => {
 </script>
 
 
-
 </html>
+
 
 
 
