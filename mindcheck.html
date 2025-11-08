@@ -335,9 +335,6 @@
 
 
 
-
-
-
 <!-- 🎯 Export Button -->
 <div style="padding: 20px; text-align: center;">
   <button id="exportBtn" style="
@@ -353,7 +350,8 @@
 </div>
 
 <script>
-  document.getElementById('exportBtn').addEventListener('click', async () => {
+document.getElementById('exportBtn').addEventListener('click', async () => {
+  try {
     let exportData = {};
 
     // 🎯 收集数据
@@ -372,47 +370,45 @@
     // 🎯 自动生成文件名
     const now = new Date();
     const pad = n => n.toString().padStart(2, '0');
-    const filename = `checklist_${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}.json`;
+    const filename = `checklist_${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}.json`;
 
-    // ✅ 改这里：必须加上完整 https:// 开头
-    const workerURL = "https://export-checklist-worker.13861775365.workers.dev"; 
+    // 🎯 调用 Cloudflare Worker 上传
+    const workerURL = "https://export-checklist-worker.13861775365.workers.dev"; // 👈 改成你的 Worker URL
+    const res = await fetch(workerURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        filename,
+        content: JSON.stringify(exportData, null, 2)
+      })
+    });
 
+    // 尝试解析 JSON
+    let result;
     try {
-      const res = await fetch(workerURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          filename,
-          content: JSON.stringify(exportData, null, 2)
-        })
-      });
-
-      // ✅ 防止 HTML 错误页引发 JSON 解析崩溃
-      if (!res.ok) {
-        const text = await res.text();
-        console.error("❌ Worker 返回错误：", res.status, text);
-        alert(`❌ 上传失败 (${res.status})`);
-        return;
-      }
-
-      const result = await res.json();
-      console.log(result);
-
-      if (result.ok) {
-        alert("✅ 上传成功！点击确定打开文件。");
-        if (result.url) window.open(result.url, "_blank");
-      } else {
-        alert(`❌ 上传失败：${result.message || "未知错误"}`);
-      }
-
-    } catch (err) {
-      console.error("❌ 网络错误：", err);
-      alert("❌ 上传时出错，请检查网络或 Worker 设置。");
+      result = await res.json();
+    } catch(e) {
+      const text = await res.text();
+      throw new Error(`Worker 返回不是 JSON: ${text}`);
     }
-  });
+
+    if (res.ok && result.ok) {
+      alert("✅ 上传成功！点击确定打开文件。");
+      if (result.url) window.open(result.url, "_blank");
+    } else {
+      throw new Error(result.message || "未知错误");
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert(`❌ 网络或 Worker 错误：${err.message}`);
+  }
+});
 </script>
 
 
+
 </html>
+
 
 
