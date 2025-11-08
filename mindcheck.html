@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist with Color Macros</title>
+<style>
+  /* 🎨 ---- COLOR MACROS ---- */
+  :root {
+    --bg-dark: #151515;
+    --bg-white: #ffffff;
+    --text-dark: #151515;
+    --text-light: #ffffff;
+    --color-green: #9ee886;
+    --color-red: #ef6f67;
+    --color-gray: #aaaaaa;
+  }
+
+  /* 🎨 ---- GLOBAL ---- */
+  body {
+    transform: scale(0.5);
+    font-family: 'Arial', sans-serif;
+    background-color: var(--bg-dark);
+    margin: 0;
+    padding: 0;
+  }
+
+  /* 🎨 ---- TITLE ---- */
+  h2 {
+    margin: 0;
+    text-align: right; /* 靠右对齐 */
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 12px 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+  }
+
+  .category {
+    margin-bottom: 0;
+  }
+
+  /* 🎨 ---- LIST ---- */
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li, .reflection {
+    width: 100%;
+    padding: 20px 25px;
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    user-select: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 0;
+  }
+
+  li {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+  }
+
+  li:hover {
+    filter: brightness(1.2);
+  }
+
+  /* 🎨 ---- REFLECTION ---- */
+.reflection {
+  background-color: var(--neutral);
+  color: var(--bg-dark);
+  min-height: 80px;
+  align-items: flex-start;
+  font-size: 1.5rem;
+  padding-top: 15px;
+  overflow-wrap: break-word;  /* 超长单词自动换行 */
+  word-break: break-word;     /* 兼容性更好 */
+  white-space: pre-wrap;      /* 保留输入的换行 */
+  overflow: auto;
+}
+
+
+  /* Placeholder 颜色（模拟） */
+  .reflection[data-placeholder]:empty::before {
+    content: attr(data-placeholder);
+    color: var(--color-gray);
+  }
+</style>
+</head>
+<body>
+
+<div class="category">
+  <h2>Mind</h2>
+  <ul>
+    <li>Slept 7+ hours</li>
+    <li>Ate real food today</li>
+    <li>Work out 30min＋</li>
+    <li>Doom scrolling 10min-</li>
+    <li>Did something that felt good</li>
+  </ul>
+  <div class="reflection" contenteditable="true" data-placeholder="Write your reflection here..."></div>
+</div>
+
+
+<div class="category">
+  <h2>School / Career</h2>
+  <ul>
+    <li>Checked deadlines & warnings</li>
+    <li>Contacted teacher / advisor</li>
+    <li>Reviewed project status</li>
+    <li>Planned/Reviewed weekly priority</li>
+  </ul>
+  <div class="reflection" contenteditable="true" data-placeholder="Write your reflection here..."></div>
+</div>
+
+
+<div class="category">
+  <h2>Space</h2>
+  <ul>
+    <li>Cleaned desk / one corner</li>
+    <li>Laundry under control</li>
+    <li>Organized files</li>
+    <li>No stinky things indoor</li>
+    <li>No stinky things on clothes</li>
+  </ul>
+  <div class="reflection" contenteditable="true" data-placeholder="Write your reflection here..."></div>
+</div>
+
+
+<div class="category">
+  <h2>Relationships</h2>
+  <ul>
+    <li>good talk</li>
+    <li>No JKYFHKGV Talks</li>
+    <li>No Angry Talk</li>
+  </ul>
+  <div class="reflection" contenteditable="true" data-placeholder="Write your reflection here..."></div>
+</div>
+
+<div class="category">
+  <h2>In Deep</h2>
+  <ul>
+    <li>Still care about art / tech / modeling</li>
+    <li>Created for fun this week</li>
+  </ul>
+  <div class="reflection" contenteditable="true" data-placeholder="Write your reflection here..."></div>
+</div>
+
+<div class="category">
+  <h2>Extra</h2>
+  <ul>
+    <li>Read or learned something new</li>
+    <li>Exercise seriously</li>
+    <li>Chat 10min＋</li>
+    
+  </ul>
+  <div class="reflection" contenteditable="true" data-placeholder="Write your reflection here..."></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  // 🎯 Reflection逻辑
+  document.querySelectorAll('.reflection').forEach(ref => {
+    ref.addEventListener('input', () => {
+      const filled = ref.textContent.trim() !== '' && ref.textContent !== ref.dataset.placeholder;
+      ref.style.backgroundColor = filled ? 'var(--color-green)' : 'var(--bg-dark)';
+      ref.style.color = filled ? 'var(--text-dark)' : 'var(--text-light)';
+    });
+  });
+
+  // 🎯 Task点击逻辑
+  document.querySelectorAll('.category').forEach(category => {
+    const tasks = category.querySelectorAll('li');
+    const title = category.querySelector('h2');
+
+    tasks.forEach(task => {
+      let clickState = 0;
+      task.dataset.clicked = 0;
+
+      task.addEventListener('click', () => {
+        clickState = (clickState + 1) % 3;
+        task.dataset.clicked = 1;
+
+        if (clickState === 1) {
+          task.style.backgroundColor = 'var(--color-green)';
+          task.style.color = 'var(--text-dark)';
+        } else if (clickState === 2) {
+          task.style.backgroundColor = 'var(--color-red)';
+          task.style.color = 'var(--text-light)';
+        } else {
+          task.style.backgroundColor = 'var(--bg-dark)';
+          task.style.color = 'var(--text-light)';
+        }
+
+        const allClicked = Array.from(tasks).every(t => t.dataset.clicked === '1');
+        title.style.backgroundColor = allClicked ? 'var(--color-green)' : 'var(--bg-dark)';
+        title.style.color = allClicked ? 'var(--text-dark)' : 'var(--text-light)';
+      });
+    });
+  });
+</script>
+<script>
+  // 🎯 获取当天日期
+  const getTodayStr = () => {
+    const now = new Date();
+    const pad = n => n.toString().padStart(2, '0');
+    return `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+  };
+
+  // 🎯 从缓存加载
+  window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('checklistData');
+    const savedDate = localStorage.getItem('checklistDate');
+    const today = getTodayStr();
+
+    if (saved && savedDate === today) {
+      const data = JSON.parse(saved);
+      document.querySelectorAll('.category').forEach(category => {
+        const title = category.querySelector('h2').textContent;
+        if (data[title]) {
+          const tasks = category.querySelectorAll('li');
+          tasks.forEach((task, i) => {
+            const statusMatch = data[title].tasks[i].match(/\[(.*?)\]$/);
+            const status = statusMatch ? statusMatch[1] : 'unchecked';
+            let color = '';
+            if (status === 'yes') {
+              color = 'green';
+              task.dataset.clicked = '1';
+              task.dataset.state = '1';
+              task.style.backgroundColor = 'var(--color-green)';
+              task.style.color = 'var(--text-dark)';
+            } else if (status === 'no') {
+              color = 'red';
+              task.dataset.clicked = '1';
+              task.dataset.state = '2';
+              task.style.backgroundColor = 'var(--color-red)';
+              task.style.color = 'var(--text-light)';
+            } else {
+              task.dataset.clicked = '0';
+              task.dataset.state = '0';
+              task.style.backgroundColor = 'var(--bg-dark)';
+              task.style.color = 'var(--text-light)';
+            }
+          });
+          const reflection = category.querySelector('.reflection');
+          reflection.textContent = data[title].reflection || '';
+          reflection.dispatchEvent(new Event('input'));
+        }
+      });
+    } else {
+      localStorage.removeItem('checklistData');
+      localStorage.setItem('checklistDate', today);
+    }
+  });
+
+  // 🎯 保存到缓存
+  const saveToCache = () => {
+    let exportData = {};
+    document.querySelectorAll('.category').forEach(category => {
+      const title = category.querySelector('h2').textContent;
+      const tasks = Array.from(category.querySelectorAll('li')).map(task => {
+        let status = 'unchecked';
+        if (task.dataset.state === '1') status = 'yes';
+        else if (task.dataset.state === '2') status = 'no';
+        return `${task.textContent} [${status}]`;
+      });
+      const reflection = category.querySelector('.reflection').textContent.trim();
+      exportData[title] = { tasks, reflection: reflection || '' };
+    });
+    localStorage.setItem('checklistData', JSON.stringify(exportData));
+    localStorage.setItem('checklistDate', getTodayStr());
+  };
+
+  // 🎯 点击时立即保存
+  document.querySelectorAll('li').forEach(task => {
+    task.addEventListener('click', () => {
+      const current = parseInt(task.dataset.state || '0');
+      const next = (current + 1) % 3;
+      task.dataset.state = next;
+
+      if (next === 1) {
+        task.style.backgroundColor = 'var(--color-green)';
+        task.style.color = 'var(--text-dark)';
+      } else if (next === 2) {
+        task.style.backgroundColor = 'var(--color-red)';
+        task.style.color = 'var(--text-light)';
+      } else {
+        task.style.backgroundColor = 'var(--bg-dark)';
+        task.style.color = 'var(--text-light)';
+      }
+
+      saveToCache();
+    });
+  });
+
+  // 🎯 反思输入保存
+  document.querySelectorAll('.reflection').forEach(ref =>
+    ref.addEventListener('input', saveToCache)
+  );
+
+  // ⏰ 每分钟检查日期，跨天自动清空
+  setInterval(() => {
+    const savedDate = localStorage.getItem('checklistDate');
+    const today = getTodayStr();
+    if (savedDate !== today) {
+      localStorage.removeItem('checklistData');
+      localStorage.setItem('checklistDate', today);
+      location.reload();
+    }
+  }, 60 * 1000);
+</script>
+
+
+
+
+
+</body>
+
+
+
+
+
+
+
+<!-- 🎯 Export Button -->
+<div style="padding: 20px; text-align: center;">
+  <button id="exportBtn" style="
+    font-size: 1.8rem;
+    padding: 10px 20px;
+    background-color: var(--color-green);
+    color: var(--text-dark);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  ">Export Checklist</button>
+</div>
+<!-- 🎯 Export Button -->
+<div style="padding: 20px; text-align: center;">
+  <button id="exportBtn" style="
+    font-size: 1.8rem;
+    padding: 10px 20px;
+    background-color: var(--color-green);
+    color: var(--text-dark);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  ">Export Checklist</button>
+</div>
+
+<script>
+  document.getElementById('exportBtn').addEventListener('click', async () => {
+    let exportData = {};
+
+    // 🎯 收集数据
+    document.querySelectorAll('.category').forEach(category => {
+      const title = category.querySelector('h2').textContent;
+      const tasks = Array.from(category.querySelectorAll('li')).map(task => {
+        let status = 'unchecked';
+        if (task.dataset.clicked === '1') status = 'yes';
+        else if (task.dataset.clicked === '2') status = 'no';
+        return `${task.textContent} [${status}]`;
+      });
+      const reflection = category.querySelector('.reflection').textContent.trim();
+      exportData[title] = { tasks, reflection: reflection || '' };
+    });
+
+    // 🎯 自动生成文件名
+    const now = new Date();
+    const pad = n => n.toString().padStart(2, '0');
+    const filename = `checklist_${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}.json`;
+
+    // 🎯 调用 Cloudflare Worker 上传
+    const workerURL = "export-checklist-worker.13861775365.workers.dev"; // 👈改成你的 Cloudflare Worker 地址
+    const res = await fetch(workerURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        filename,
+        content: JSON.stringify(exportData, null, 2)
+      })
+    });
+
+    const result = await res.json();
+    console.log(result);
+
+    if (result.ok) {
+      alert("✅ 上传成功！点击确定打开文件。");
+      if (result.url) window.open(result.url, "_blank");
+    } else {
+      alert(`❌ 上传失败：${result.message || "未知错误"}`);
+    }
+  });
+</script>
+
+
+</html>
