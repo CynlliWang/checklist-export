@@ -1,0 +1,56 @@
+{
+  "Mind": {
+    "tasks": [
+      "Slept 7+ hours [yes]",
+      "Ate real food today [yes]",
+      "Work out 30min＋ [yes]",
+      "Doom scrolling 10min- [yes]",
+      "Did something that felt good [yes]"
+    ],
+    "reflection": "做了整个checklist网页， 挺好看挺开心。看了万神殿，比和别人聊天有用。今天挺爽。"
+  },
+  "School / Career": {
+    "tasks": [
+      "Checked deadlines & warnings [yes]",
+      "Contacted teacher / advisor [yes]",
+      "Reviewed project status [yes]",
+      "Planned/Reviewed weekly priority [yes]"
+    ],
+    "reflection": "跟导员确认了学业预警还没有回复。实习方面周末把低模建好，看一下3DMax的操作，写一个快捷键表格。本周要在周一提出周二上午的请假申请，去学校前问一下GPT话术,在手机日历上写好时间1. 看上课的时间 2.问去找张老师的时间 3.等张老师周一回复，如果没有回复，周一晚上想办法联系到她 。本周要抽出时间来把学校的东西做好（搭好Unity框架）。明天看一下deadline，把所有需要的日期整合到notion。学校的项目还完全没头绪。"
+  },
+  "Space": {
+    "tasks": [
+      "Cleaned desk / one corner [yes]",
+      "Laundry under control [yes]",
+      "Organized files [yes]",
+      "No stinky things indoor [yes]",
+      "No stinky things on clothes [yes]"
+    ],
+    "reflection": "今天做了大扫除，今明两天把所有旅行有关的东西放到包里。包周二要带去学校。"
+  },
+  "Relationships": {
+    "tasks": [
+      "Good talk [yes]",
+      "No JKYFHKGV Talks [yes]",
+      "No Angry Talk [yes]",
+      "Ask for good time [yes]",
+      "Good time [yes]"
+    ],
+    "reflection": "下午一点不和我玩，他太忙了。收到了报备"
+  },
+  "Growth": {
+    "tasks": [
+      "Still care about art / tech / modeling [yes]",
+      "Created for fun this week [yes]"
+    ],
+    "reflection": "没做自己的东西"
+  },
+  "Extra": {
+    "tasks": [
+      "Read or learned something new [yes]",
+      "Exercise seriously [yes]",
+      "Chat 10min＋ [yes]"
+    ],
+    "reflection": "看了一下cloudfare和3Dmax没出门，明天出门。"
+  }
+}
