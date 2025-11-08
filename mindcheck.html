@@ -137,15 +137,17 @@
 <div class="category">
   <h2>Relationships</h2>
   <ul>
-    <li>good talk</li>
+    <li>Good talk</li>
     <li>No JKYFHKGV Talks</li>
     <li>No Angry Talk</li>
+    <li>Ask for good time</li>
+    <li>Good time</li>
   </ul>
   <div class="reflection" contenteditable="true" data-placeholder="Write your reflection here..."></div>
 </div>
 
 <div class="category">
-  <h2>In Deep</h2>
+  <h2>Growth</h2>
   <ul>
     <li>Still care about art / tech / modeling</li>
     <li>Created for fun this week</li>
@@ -333,6 +335,9 @@
 </body>
 
 
+
+
+
 <!-- 🎯 Export Button -->
 <div style="padding: 20px; text-align: center;">
   <button id="exportBtn" style="
@@ -348,10 +353,11 @@
 </div>
 
 <script>
-document.getElementById('exportBtn').addEventListener('click', async () => {
+document.getElementById('exportBtn').addEventListener('click', () => {
   try {
+    let exportData = {};
+
     // 🎯 收集数据
-    const exportData = {};
     document.querySelectorAll('.category').forEach(category => {
       const title = category.querySelector('h2').textContent;
       const tasks = Array.from(category.querySelectorAll('li')).map(task => {
@@ -369,50 +375,26 @@ document.getElementById('exportBtn').addEventListener('click', async () => {
     const pad = n => n.toString().padStart(2, '0');
     const filename = `checklist_${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}.json`;
 
-    // 🎯 调用 Cloudflare Worker 上传
-    const workerURL = "https://export-checklist-worker.13861775365.workers.dev"; // 👈 改成你的 Worker URL
-    const res = await fetch(workerURL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        filename,
-        content: JSON.stringify(exportData, null, 2)
-      })
-    });
+    // 🎯 创建 Blob 并下载
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
 
-    // ⚠️ 检查 HTTP 状态
-    if (!res.ok) {
-      const text = await res.text();
-      throw new Error(`Worker 返回 HTTP ${res.status}: ${text}`);
-    }
-
-    // 🎯 尝试解析 JSON
-    let result;
-    try {
-      result = await res.json();
-    } catch(e) {
-      const text = await res.text();
-      throw new Error(`Worker 返回不是 JSON: ${text}`);
-    }
-
-    // 🎯 上传结果处理
-    if (result.ok) {
-      alert("✅ 上传成功！点击确定打开文件。");
-      if (result.url) window.open(result.url, "_blank");
-    } else {
-      throw new Error(result.message || "未知错误");
-    }
-
+    alert("✅ 文件已保存到本地！");
   } catch (err) {
     console.error(err);
-    alert(`❌ 网络或 Worker 错误：${err.message}`);
+    alert(`❌ 错误：${err.message}`);
   }
 });
 </script>
 
 
-</html>
 
+</html>
 
 
 
