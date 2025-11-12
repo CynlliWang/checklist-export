@@ -1,0 +1,56 @@
+{
+  "Mind": {
+    "tasks": [
+      "Slept 7+ hours [no]",
+      "Ate real food today [yes]",
+      "Work out 30min＋ [no]",
+      "Doom scrolling 10min- [yes]",
+      "Did something that felt good [yes]"
+    ],
+    "reflection": "早上起来黑眼圈还是很重，昨天一点半睡的，到八点也才六个半小时。晚上刷AO3的原因晚睡了很久，还是缺陪伴感了，没有更快的方式能缓解吗？不知道Elian晚上需不需要沟通， like small talk。我还是不清楚如何做这个，还没有看清自己的需求。（有时候只是需要安全感，但是这个的前提是行为都被切实地看到）我不能一直盯着陪伴感（延续对话）不放，他可能不太喜欢，有时候只是我爱你就够了，明天切记补上。今天去看双年展。"
+  },
+  "School / Career": {
+    "tasks": [
+      "Checked deadlines & warnings [yes]",
+      "Contacted teacher / advisor [no]",
+      "Reviewed project status [yes]",
+      "Planned/Reviewed weekly priority [no]"
+    ],
+    "reflection": "i dont want to be in problem solving mode,  its tiring"
+  },
+  "Space": {
+    "tasks": [
+      "Cleaned desk / one corner [yes]",
+      "Laundry under control [yes]",
+      "Organized files [no]",
+      "No stinky things indoor [no]",
+      "No stinky things on clothes [yes]"
+    ],
+    "reflection": "让所有东西及时归位很难"
+  },
+  "Relationships": {
+    "tasks": [
+      "Good talk [no]",
+      "No JKYFHKGV Talks [yes]",
+      "No Angry Talk [yes]",
+      "Ask for good time [no]",
+      "Good time [no]"
+    ],
+    "reflection": "我觉得我们缺点深度对话，但是我对他说的话题没兴趣，让我接话很勉强。"
+  },
+  "Growth": {
+    "tasks": [
+      "Still care about art / tech / modeling [yes]",
+      "Created for fun this week [no]"
+    ],
+    "reflection": ""
+  },
+  "Extra": {
+    "tasks": [
+      "Read or learned something new [no]",
+      "Exercise seriously [no]",
+      "Chat 10min＋ [no]"
+    ],
+    "reflection": ""
+  }
+}

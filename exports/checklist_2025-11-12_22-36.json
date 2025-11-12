@@ -1,0 +1,56 @@
+{
+  "Mind": {
+    "tasks": [
+      "Slept 7+ hours [yes]",
+      "Ate real food today [yes]",
+      "Work out 30min＋ [no]",
+      "Doom scrolling 10min- [no]",
+      "Did something that felt good [yes]"
+    ],
+    "reflection": ""
+  },
+  "School / Career": {
+    "tasks": [
+      "Checked deadlines & warnings [no]",
+      "Contacted teacher / advisor [yes]",
+      "Reviewed project status [no]",
+      "Planned/Reviewed weekly priority [no]"
+    ],
+    "reflection": ""
+  },
+  "Space": {
+    "tasks": [
+      "Cleaned desk / one corner [yes]",
+      "Laundry under control [yes]",
+      "Organized files [yes]",
+      "No stinky things indoor [no]",
+      "No stinky things on clothes [yes]"
+    ],
+    "reflection": ""
+  },
+  "Relationships": {
+    "tasks": [
+      "Good talk [yes]",
+      "No JKYFHKGV Talks [yes]",
+      "No Angry Talk [yes]",
+      "Ask for good time [no]",
+      "Good time [no]"
+    ],
+    "reflection": ""
+  },
+  "Growth": {
+    "tasks": [
+      "Still care about art / tech / modeling [yes]",
+      "Created for fun this week [no]"
+    ],
+    "reflection": ""
+  },
+  "Extra": {
+    "tasks": [
+      "Read or learned something new [yes]",
+      "Exercise seriously [no]",
+      "Chat 10min＋ [yes]"
+    ],
+    "reflection": ""
+  }
+}
