@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Task Priority</title>
+<style>
+  body {
+    background: #111;
+    color: #eee;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    user-select: none;
+  }
+
+  h2 {
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+  }
+
+  .category {
+    margin-bottom: 30px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+  }
+
+  li {
+    background: #222;
+    margin-bottom: 6px;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: grab;
+  }
+
+  li:active {
+    cursor: grabbing;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    background: #1a1a1a;
+    color: #fff;
+    border: 1px solid #333;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="category" id="high">
+  <h2>⭐ High Priority</h2>
+  <input class="newTask" placeholder="Must-do / Time-sensitive">
+  <ul class="taskList"></ul>
+</div>
+
+<div class="category" id="medium">
+  <h2>🌙 Medium Priority</h2>
+  <input class="newTask" placeholder="Quality / Future Progress">
+  <ul class="taskList"></ul>
+</div>
+
+<div class="category" id="low">
+  <h2>🍃 Low Priority</h2>
+  <input class="newTask" placeholder="Comfort / Mood-based">
+  <ul class="taskList"></ul>
+</div>
+
+<script>
+document.querySelectorAll('.category').forEach(cat => {
+
+  const categoryId = cat.id;
+  const title = cat.querySelector('h2');
+  const input = cat.querySelector('.newTask');
+  const list = cat.querySelector('.taskList');
+
+  // --- 加载任务 ---
+  loadTasks();
+
+  // 点击 Title → 添加任务
+  title.addEventListener('click', () => {
+    if (input.value.trim() !== "") {
+      addTask(input.value.trim());
+      input.value = "";
+      saveTasks();
+    }
+  });
+
+  // 输入框按 Enter
+  input.addEventListener('keypress', e => {
+    if (e.key === "Enter" && input.value.trim() !== "") {
+      addTask(input.value.trim());
+      input.value = "";
+      saveTasks();
+    }
+  });
+
+  // 拖拽逻辑
+  let draggingEl = null;
+
+  function addTask(text) {
+    const li = document.createElement('li');
+    li.textContent = text;
+    li.draggable = true;
+
+    // 双击删除
+    li.addEventListener('dblclick', () => {
+      li.remove();
+      saveTasks();
+    });
+
+    // 拖拽开始
+    li.addEventListener('dragstart', () => {
+      draggingEl = li;
+      li.style.opacity = "0.3";
+    });
+
+    // 拖拽结束
+    li.addEventListener('dragend', () => {
+      draggingEl = null;
+      li.style.opacity = "1";
+      saveTasks();
+    });
+
+    list.appendChild(li);
+  }
+
+  list.addEventListener('dragover', e => {
+    e.preventDefault();
+    const afterEl = getDragAfterElement(list, e.clientY);
+    if (afterEl == null) {
+      list.appendChild(draggingEl);
+    } else {
+      list.insertBefore(draggingEl, afterEl);
+    }
+  });
+
+  function getDragAfterElement(list, y) {
+    const items = [...list.querySelectorAll('li:not(.dragging)')];
+    return items.reduce(
+      (closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, 
+      { offset: Number.NEGATIVE_INFINITY }
+    ).element;
+  }
+
+  // --- 保存到 localStorage ---
+  function saveTasks() {
+    const tasks = [...list.querySelectorAll('li')].map(li => li.textContent);
+    localStorage.setItem("tasks_" + categoryId, JSON.stringify(tasks));
+  }
+
+  // --- 读取 localStorage ---
+  function loadTasks() {
+    const saved = JSON.parse(localStorage.getItem("tasks_" + categoryId) || "[]");
+    saved.forEach(t => addTask(t));
+  }
+
+});
+</script>
+
+</body>
+</html>
