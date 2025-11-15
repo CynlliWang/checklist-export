@@ -18,21 +18,21 @@
 
   /* 🎨 ---- GLOBAL ---- */
   body {
-    scale: 50%；
     transform-origin:center;
     font-family: 'Arial', sans-serif;
     background-color: var(--bg-dark);
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
+    max-width: 900px;
   }
 
   /* 🎨 ---- TITLE ---- */
   h2 {
     margin: 0;
     text-align: right; /* 靠右对齐 */
-    font-size: 2rem;
+    font-size: 1.2rem;
     font-weight: bold;
-    padding: 12px 15px;
+    padding: 0px 5px;
     transition: background-color 0.3s ease, color 0.3s ease;
     background-color: var(--bg-dark);
     color: var(--text-light);
@@ -40,6 +40,7 @@
 
   .category {
     margin-bottom: 0;
+    font-size: 1.2rem;
   }
 
   /* 🎨 ---- LIST ---- */
@@ -51,9 +52,9 @@
 
   li, .reflection {
     width: 100%;
-    padding: 20px 25px;
+    padding: 20/2px 25/2px;
     margin: 0;
-    font-size: 2.5rem;
+    font-size: 2.5/2rem;
     font-weight: bold;
     box-sizing: border-box;
     display: flex;
@@ -77,10 +78,10 @@
 .reflection {
   background-color: var(--neutral);
   color: var(--bg-dark);
-  min-height: 80px;
+  min-height: 80/2px;
   align-items: flex-start;
-  font-size: 1.5rem;
-  padding-top: 15px;
+  font-size: 1rem;
+  padding-top: 15/2px;
   overflow-wrap: break-word;  /* 超长单词自动换行 */
   word-break: break-word;     /* 兼容性更好 */
   white-space: pre-wrap;      /* 保留输入的换行 */
@@ -96,7 +97,7 @@
   }
 </style>
 </head>
-<body style="font-size: 50%; line-height: 1.2;">
+<body style="font-size: 50%; line-height: 2.2;">
 
 <div class="category">
   <h2>Mind</h2>
@@ -343,7 +344,7 @@
 <!-- 🎯 Export Button -->
 <div style="padding: 20px; text-align: center;">
   <button id="exportBtn" style="
-    font-size: 1.8rem;
+    font-size: 1rem;
     padding: 10px 20px;
     background-color: var(--color-green);
     color: var(--text-dark);
@@ -355,17 +356,16 @@
 
   <a href="ThingsSort.html"
      style="
-       font-size: 1.8rem;
-       padding: 10px 20px;
-       background-color: var(--color-gray);
-       color: var(--text-dark);
-       border-radius: 8px;
-       text-decoration: none;
-       font-weight: bold;
-       margin-left: 15px;
-       display: inline-block;
+      font-size: 1rem;
+      padding: 10px 20px;
+      background-color: var(--color-green);
+      color: var(--text-dark);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
      ">
-    ThingsList
+    Things List >>
   </a>
 </div>
 
@@ -413,4 +413,3 @@ document.getElementById('exportBtn').addEventListener('click', () => {
 
 
 </html>
-
