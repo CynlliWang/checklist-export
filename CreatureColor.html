@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>怪物色卡 — Soft / Moss / Jelly Crystal</title>
+  <style>
+    :root{font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    body{background:#0f1115;color:#e8eefc;margin:0;padding:32px;}
+    h1{font-size:20px;margin:0 0 18px 0}
+    .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);}
+    .title{font-weight:700;margin-bottom:8px;font-size:16px}
+    .desc{font-size:13px;margin-bottom:12px;color:#cbd7ff}
+    .swatches{display:flex;gap:10px;flex-wrap:wrap}
+    .swatch{flex:1 1 86px;border-radius:8px;overflow:hidden;border:1px solid rgba(0,0,0,0.12);position:relative}
+    .chip{height:86px;display:flex;align-items:flex-end;padding:8px 10px;color:rgba(0,0,0,0.6);font-weight:700}
+    .meta{background:rgba(255,255,255,0.92);padding:8px;font-size:12px;display:flex;justify-content:space-between;align-items:center}
+    .hex{font-family:monospace;font-weight:700}
+    .label{opacity:0.9}
+    .actions{margin-top:12px;display:flex;gap:8px}
+    button{background:#21242b;border:1px solid rgba(255,255,255,0.04);color:#e6eefc;padding:8px 10px;border-radius:8px;cursor:pointer}
+    button:active{transform:translateY(1px)}
+    .note{margin-top:12px;font-size:12px;color:#bfcffb}
+    .swatch .chip span{background:rgba(255,255,255,0.9);padding:4px 6px;border-radius:6px;font-size:12px}
+    @media (max-width:520px){body{padding:16px}}
+  </style>
+</head>
+<body>
+  <h1>怪物色卡 — **Soft / Moss / Jelly Crystal**</h1>
+  <div class="wrap">
+
+    <!-- Soft Creature -->
+    <div class="card" id="soft">
+      <div class="title">**怪物一 · 柔软系 (Soft Creature)**</div>
+      <div class="desc">氛围：**雾气、棉花、脆弱、安静**</div>
+      <div class="swatches">
+        <div class="swatch">
+          <div class="chip" style="background:#D8C8D0"><span>**粉灰**</span></div>
+          <div class="meta"><div class="label">主色</div><div class="hex">#D8C8D0</div></div>
+        </div>
+
+        <div class="swatch">
+          <div class="chip" style="background:#F3EFEA"><span>**奶白**</span></div>
+          <div class="meta"><div class="label">高光</div><div class="hex">#F3EFEA</div></div>
+        </div>
+
+        <div class="swatch">
+          <div class="chip" style="background:#C5B4E3"><span>**雾紫**</span></div>
+          <div class="meta"><div class="label">纹理细节</div><div class="hex">#C5B4E3</div></div>
+        </div>
+
+        <div class="swatch">
+          <div class="chip" style="background:#B49E89"><span>**浅褐**</span></div>
+          <div class="meta"><div class="label">边缘/器官</div><div class="hex">#B49E89</div></div>
+        </div>
+
+        <div class="swatch">
+          <div class="chip" style="background:#DDE3F2"><span>**淡蓝灰**</span></div>
+          <div class="meta"><div class="label">眼睛/反光</div><div class="hex">#DDE3F2</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Moss Creature -->
+    <div class="card" id="moss">
+      <div class="title">**怪物二 · 森林藻类系 (Moss Creature)**</div>
+      <div class="desc">氛围：**像长在树林里的古怪小东西，但超级温顺、有点呆萌**</div>
+      <div class="swatches">
+        <div class="swatch">
+          <div class="chip" style="background:#6F8F63;color:#f2f6ee"><span>**苔绿色**</span></div>
+          <div class="meta"><div class="label">主体</div><div class="hex">#6F8F63</div></div>
+        </div>
+
+        <div class="swatch">
+          <div class="chip" style="background:#5A7A75;color:#eaf6f4"><span>**海藻青**</span></div>
+          <div class="meta"><div class="label">湿润/皱褶</div><div class="hex">#5A7A75</div></div>
+        </div>
+
+        <div class="swatch">
+          <div class="chip" style="background:#8A7E6A;color:#10100e"><span>**土灰棕**</span></div>
+          <div class="meta"><div class="label">角质结构</div><div class="hex">#8A7E6A</div></div>
+        </div>
+
+        <div class="swatch">
+          <div class="chip" style="background:#CFE8D4;color:#0a2a12"><span>**淡薄荷**</span></div>
+          <div class="meta"><div class="label">发光器官</div><div class="hex">#CFE8D4</div></div>
+        </div>
+
+        <div class="swatch">
+          <div class="chip" style="background:#2F3F34;color:#dbe7dd"><span>**阴影墨绿**</span></div>
+          <div class="meta"><div class="label">深部阴影</div><div class="hex">#2F3F34</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Jelly Crystal -->
+    <div class="card" id="jelly">
+      <div class="title">**怪物三 · 水母晶体系 (Jelly Crystal)**</div>
+      <div class="desc">氛围：**温柔的深海宝石，有点外星，但靠近会发光的小可爱**</div>
+      <div class="swatches">
+        <div class="swatch">
+          <div class="chip" style="background:rgba(168,200,232,0.9);backdrop-filter:blur(4px);"><span>**半透明蓝**</span></div>
+          <div class="meta"><div class="label">皮肤</div><div class="hex">#A8C8E8</div></div>
+        </div>
+
+        <div class="swatch">
+          <div class="chip" style="background:#E7B7D2;color:#2e1b2a"><span>**糖果粉**</span></div>
+          <div class="meta"><div class="label">内部能量</div><div class="hex">#E7B7D2</div></div>
+        </div>
+
+        <div class="swatch">
+          <div class="chip" style="background:#C8D6EE;color:#1b2a3a"><span>**浅青紫**</span></div>
+          <div class="meta"><div class="label">触手</div><div class="hex">#C8D6EE</div></div>
+        </div>
+
+        <div class="swatch">
+          <div class="chip" style="background:#F6CBA1;color:#3a2312"><span>**暖橙光**</span></div>
+          <div class="meta"><div class="label">发光结节</div><div class="hex">#F6CBA1</div></div>
+        </div>
+
+        <div class="swatch">
+          <div class="chip" style="background:#44496B;color:#f3f6ff"><span>**深蓝紫**</span></div>
+          <div class="meta"><div class="label">体腔深处</div><div class="hex">#44496B</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="note">提示：点击任意 <strong>HEX</strong> 值会复制到剪贴板，方便你直接粘到 <strong>Maya/Blender/Substance</strong>。想要 <strong>PNG</strong> 或 <strong>Figma</strong> 导出，吱一声。</div>
+
+  <script>
+    document.querySelectorAll('.hex').forEach(el=>{
+      el.style.cursor='pointer';
+      el.title='点击复制 HEX';
+      el.addEventListener('click',()=>{
+        navigator.clipboard.writeText(el.textContent).then(()=>{
+          el.textContent = el.textContent + ' ✔';
+          setTimeout(()=>{ el.textContent = el.textContent.replace(' ✔','') },800);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
