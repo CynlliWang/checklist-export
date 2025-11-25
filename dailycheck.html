@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>深海三怪每日 Checklist — Chiv</title>
+<style>
+  :root{
+    --bg1:#eef8ff; --bg2:#f7fbff; --card:#ffffff;
+    --accent1:#00b2c7; --accent2:#4f46e5; --muted:#666;
+  }
+  html,body{height:100%;margin:0;font-family:Inter, "Helvetica Neue", Arial, sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#0b1220;}
+  .wrap{max-width:960px;margin:28px auto;padding:18px;}
+  .card{background:var(--card);border-radius:14px;padding:20px;box-shadow:0 8px 30px rgba(17,24,39,0.07);}
+  header{display:flex;gap:12px;align-items:center;justify-content:space-between;}
+  h1{margin:0;font-size:20px;}
+  p.lead{margin:4px 0 0;color:var(--muted);font-size:13px;}
+  .progress{width:280px;background:#eee;border-radius:999px;overflow:hidden;height:12px;}
+  .bar{height:100%;background:linear-gradient(90deg,var(--accent1),var(--accent2));width:0%;}
+  main{margin-top:18px;}
+  .day{border-radius:10px;border:1px solid rgba(15,23,42,0.06);padding:12px;margin-bottom:10px;}
+  .day-head{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .day-title{font-weight:700;}
+  .meta{font-size:12px;color:var(--muted);}
+  .tasks{margin-top:10px;display:none;}
+  .task{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-top:1px dashed rgba(10,10,10,0.03);}
+  .task:first-child{border-top:none;}
+  .task label{cursor:pointer;}
+  .controls{display:flex;gap:8px;align-items:center;margin-top:14px;justify-content:space-between;}
+  .btn{background:var(--accent1);color:white;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:600;}
+  .btn.ghost{background:transparent;color:var(--accent2);border:1px solid rgba(79,70,229,0.08);}
+  .small{font-size:13px;padding:6px 10px;border-radius:8px;}
+  .muted{color:var(--muted);font-size:13px;}
+  footer{margin-top:16px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between;align-items:center;}
+  .top-row{display:flex;gap:14px;align-items:center;}
+  .expand-btn{background:#f1f8ff;border:none;color:var(--accent2);padding:6px 8px;border-radius:8px;cursor:pointer;}
+  .count{font-size:13px;color:var(--muted)}
+  pre{white-space:pre-wrap;background:#f8fbff;padding:8px;border-radius:8px;border:1px dashed rgba(10,10,10,0.03)}
+  @media (max-width:640px){.progress{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card" role="application" aria-label="深海三怪每日Checklist">
+    <header>
+      <div>
+        <h1>深海三怪每日<strong>Checklist</strong></h1>
+        <p class="lead">先做模型，再补论文 —— 跟着步子走就行。⚡（重点词已用 <strong>加粗</strong>）</p>
+      </div>
+
+      <div class="top-row">
+        <div style="text-align:right">
+          <div class="muted">进度</div>
+          <div class="progress" aria-hidden="true"><div id="prog" class="bar"></div></div>
+          <div class="count" id="progText">0%</div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main"></main>
+
+    <div class="controls">
+      <div style="display:flex;gap:8px;">
+        <button id="printBtn" class="btn small">打印 / 保存为 PDF</button>
+        <button id="exportBtn" class="btn small">导出 JSON</button>
+        <button id="resetBtn" class="btn small" style="background:#ffdede;color:#8b0000">重置完成</button>
+      </div>
+      <div class="muted">提示：勾选会自动保存到本地，页面可离线使用。</div>
+    </div>
+
+    <footer>
+      <div>由 <strong>Chiv</strong> 的深海三怪项目排期生成</div>
+      <div class="muted">需要 Notion / Excel 版可再说。</div>
+    </footer>
+  </div>
+
+  <p style="margin-top:14px" class="muted">使用方法：复制本页到 <code>chiv_checklist.html</code>，双击打开。勾选项会保存在浏览器 <strong>localStorage</strong>。</p>
+</div>
+
+<script>
+/* 数据（任务文本内已包含 <strong> 加粗标签） */
+const DAYS = [
+  { id:1, title: '<strong>Day 1｜概念锁定</strong>', tasks: [
+    '选定每个怪的 <strong>Silhouette（轮廓）</strong>',
+    '从 <strong>SD</strong> 生成 or 选择 <strong>参考图</strong>（各 6 张）',
+    '分析每个怪的 <strong>特征点</strong>：<strong>腿型 / 触角 / 皮肤材质 / 体态</strong>',
+    '定3个怪的 <strong>色彩基调</strong>（统一的温柔 vibe）'
+  ]},
+  { id:2, title: '<strong>Day 2｜怪1 Blockout</strong>', tasks:[
+    '建怪 1 的 <strong>Blockout（大形）</strong>',
+    '检查 <strong>比例 / 重心 / 轮廓识别度</strong>',
+    '输出一个 <strong>Turntable</strong> 看整体姿态'
+  ]},
+  { id:3, title: '<strong>Day 3｜怪1 二级形体</strong>', tasks:[
+    '加怪 1 的 <strong>二级肌肉结构</strong>',
+    '确定 <strong>关节弯折点</strong>',
+    '截图整理成：<strong>结构分析图第一版</strong>'
+  ]},
+  { id:4, title: '<strong>Day 4｜怪2 Blockout</strong>', tasks:[
+    '做怪 2 的 <strong>大形</strong>',
+    '对比怪 1 的整体语言（<strong>风格一致</strong>）',
+    '检查 <strong>负空间（Negative Space）</strong>',
+    'Turntable 输出'
+  ]},
+  { id:5, title: '<strong>Day 5｜怪2 二级形体</strong>', tasks:[
+    '添加怪 2 的 <strong>骨骼结构 + 肌肉量感</strong>',
+    '调整 <strong>四肢长度与节奏感</strong>',
+    '截图整理：<strong>结构分析图第二版</strong>'
+  ]},
+  { id:6, title: '<strong>Day 6｜怪3 Blockout</strong>', tasks:[
+    '做怪 3 的 <strong>大形</strong>',
+    '确立<strong>主视觉点（Visual Focus）</strong>',
+    'Turntable 输出'
+  ]},
+  { id:7, title: '<strong>Day 7｜怪3 二级形体</strong>', tasks:[
+    '完成怪 3 的 <strong>二级结构</strong>',
+    '保持温柔气质（<strong>圆钝、少尖点</strong>）',
+    '截图整理：<strong>结构分析图第三版</strong>'
+  ]},
+  { id:8, title: '<strong>Day 8｜风格一致性统一</strong>', tasks:[
+    '三个怪对比：<strong>轮廓 / 色彩 / 体块节奏</strong>',
+    '统一材质方向：<strong>Silky Skin / Soft Fur / Translucent Membrane</strong>',
+    '画一个 <strong>小型色彩版（Color Board）</strong>'
+  ]},
+  { id:9, title: '<strong>Day 9｜怪1 终级细化</strong>', tasks:[
+    '添加怪 1 的 <strong>细褶皱 / 毛发生长方向 / 微结构</strong>',
+    '统一其“温柔怪”主题',
+    '输出第一次正式渲染（草稿）'
+  ]},
+  { id:10, title: '<strong>Day 10｜怪2 终级细化</strong>', tasks:[
+    '添加怪 2 的 <strong>皮肤纹理 / 局部软组织</strong>',
+    '表面处理保持 <strong>柔亮材质</strong>',
+    '输出渲染草稿'
+  ]},
+  { id:11, title: '<strong>Day 11｜怪3 终级细化</strong>', tasks:[
+    '添加怪 3 的 <strong>细节纹理</strong>',
+    '让三个怪的风格更接近一个<strong>同世界观</strong>',
+    '输出渲染草稿'
+  ]},
+  { id:12, title: '<strong>Day 12｜论文：可读性部分撰写</strong>', tasks:[
+    '写：<strong>3D 角色可读性（Readability）概念</strong>',
+    '写：<strong>轮廓信息的重要性</strong>',
+    '写：<strong>视觉重心（Visual Focus）</strong> 如何引导玩家',
+    '完成约 <strong>1500 字</strong>'
+  ]},
+  { id:13, title: '<strong>Day 13｜论文：设计流程撰写</strong>', tasks:[
+    '写：你的 <strong>3 阶段建模流程（Blockout → Secondary → Detail）</strong>',
+    '写：怪物“温柔风格”视觉语言',
+    '写：<strong>材质 + 颜色</strong> 如何服务主题',
+    '插入 Day 1–11 的过程图'
+  ]},
+  { id:14, title: '<strong>Day 14｜整合图像 + 排版</strong>', tasks:[
+    '制作：<strong>轮廓对比图 / 结构分析图 / 材质示意图 / 三怪合照渲染</strong>',
+    '调整论文排版'
+  ]},
+  { id:15, title: '<strong>Day 15｜最终打磨</strong>', tasks:[
+    '检查论文逻辑、字数与引用',
+    '最终生成 <strong>PDF</strong>',
+    '同步备份渲染图到作品集库'
+  ]}
+];
+
+/* 本地存储 key */
+const STORAGE_KEY = 'chiv_checklist_v1';
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return null;
+    return JSON.parse(raw);
+  }catch(e){
+    return null;
+  }
+}
+function saveState(state){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+}
+
+/* 初始 state */
+let state = loadState() || { items: DAYS.map(d => ({ id:d.id, done: Array(d.tasks.length).fill(false), expanded:false })) };
+
+/* 渲染 */
+const main = document.getElementById('main');
+
+function calcProgress(){
+  let total=0, done=0;
+  state.items.forEach(it=>{
+    total += it.done.length;
+    done += it.done.filter(Boolean).length;
+  });
+  const pct = total===0?0:Math.round(done/total*100);
+  return {pct, done, total};
+}
+
+function render(){
+  main.innerHTML = '';
+  DAYS.forEach(day=>{
+    const item = state.items.find(i=>i.id===day.id);
+    const dayEl = document.createElement('section');
+    dayEl.className = 'day';
+    const head = document.createElement('div');
+    head.className = 'day-head';
+    head.innerHTML = `<div class="day-title">${day.title}</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="meta">${ (item.done.filter(Boolean).length) } / ${day.tasks.length}</div>
+        <button class="expand-btn" data-id="${day.id}">${ item.expanded ? '收起' : '展开' }</button>
+      </div>`;
+    dayEl.appendChild(head);
+
+    const tasks = document.createElement('div');
+    tasks.className = 'tasks';
+    if(item.expanded) tasks.style.display = 'block';
+    day.tasks.forEach((t, idx)=>{
+      const row = document.createElement('div');
+      row.className = 'task';
+      row.innerHTML = `<input type="checkbox" data-day="${day.id}" data-idx="${idx}" ${ item.done[idx] ? 'checked' : '' } />
+        <label style="flex:1;margin-left:6px">${t}</label>`;
+      tasks.appendChild(row);
+    });
+    dayEl.appendChild(tasks);
+    main.appendChild(dayEl);
+  });
+
+  // 进度条
+  const p = calcProgress();
+  document.getElementById('prog').style.width = p.pct + '%';
+  document.getElementById('progText').textContent = p.pct + '%';
+
+  attachControls();
+}
+
+/* 事件绑定 */
+function attachControls(){
+  // expand buttons
+  document.querySelectorAll('.expand-btn').forEach(btn=>{
+    btn.onclick = () => {
+      const id = Number(btn.getAttribute('data-id'));
+      const item = state.items.find(i=>i.id===id);
+      item.expanded = !item.expanded;
+      saveState(state);
+      render();
+    };
+  });
+
+  // checkboxes
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+    cb.onchange = (e) => {
+      const dayId = Number(cb.getAttribute('data-day'));
+      const idx = Number(cb.getAttribute('data-idx'));
+      const item = state.items.find(i=>i.id===dayId);
+      item.done[idx] = cb.checked;
+      saveState(state);
+      render();
+    };
+    // 长按快速切换（mobile）
+    cb.ontouchstart = (ev) => { cb.dataset.touchStart = Date.now(); };
+    cb.ontouchend = (ev) => {
+      const t = Date.now() - (cb.dataset.touchStart || 0);
+      if(t > 600){ // 长按则切换全部
+        const dayId = Number(cb.getAttribute('data-day'));
+        const item = state.items.find(i=>i.id===dayId);
+        const all = item.done.every(Boolean);
+        item.done = item.done.map(()=>!all);
+        saveState(state); render();
+      }
+    };
+  });
+}
+
+/* 按钮功能 */
+document.getElementById('resetBtn').onclick = () => {
+  if(!confirm('确认重置所有完成状态？')) return;
+  state.items.forEach(i=> i.done = i.done.map(()=>false));
+  saveState(state); render();
+};
+
+document.getElementById('exportBtn').onclick = () => {
+  const exportData = state.items.map(it => {
+    const d = DAYS.find(dd=>dd.id===it.id);
+    return { id: it.id, title: d.title, tasks: d.tasks, done: it.done };
+  });
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'chiv_checklist_export.json'; a.click();
+  URL.revokeObjectURL(url);
+};
+
+document.getElementById('printBtn').onclick = () => window.print();
+
+/* 首次渲染 */
+render();
+
+/* 持续保存（避免丢失） */
+window.addEventListener('beforeunload', ()=> saveState(state));
+</script>
+</body>
+</html>
